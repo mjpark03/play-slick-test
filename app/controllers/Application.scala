@@ -14,7 +14,7 @@ import scala.concurrent.Future
 class Application @Inject()( modelRepo: ModelRepo)
   extends Controller {
 
-  implicit val implicitFooWrites = new Writes[Model] {
+  implicit val implicitModelWrites = new Writes[Model] {
     def writes(model: Model): JsValue = {
       Json.obj(
         "id" -> model.id,
