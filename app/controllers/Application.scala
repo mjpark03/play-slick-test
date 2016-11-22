@@ -32,4 +32,11 @@ class Application @Inject()( modelRepo: ModelRepo)
       Ok(Json.toJson(model))
     }
   }
+
+  def createModel(id: Long, name: String) = Action.async {
+    val `type` = "1"
+    val successResponse = Map("status" -> "success")
+    modelRepo.create(id, name, `type`)
+      .map(id => Ok(Json.toJson(successResponse)))
+  }
 }
