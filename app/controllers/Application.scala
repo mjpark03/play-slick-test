@@ -1,6 +1,6 @@
 package controllers
 
-import models.{ModelRepo, Model}
+import models.{ModelRepo, Model, JoinResult}
 
 import javax.inject.Inject
 
@@ -24,10 +24,31 @@ class Application @Inject()( modelRepo: ModelRepo)
     }
   }
 
+  implicit val implicitJoinWrites = new Writes[JoinResult] {
+    def writes(item: JoinResult): JsValue = {
+      Json.obj(
+        "id" -> item.id,
+        "type" -> item.`type`,
+        "modelId" -> item.modelId,
+        "switcherId" -> item.switcherId,
+        "macAddress" -> item.macAddress
+      )
+    }
+  }
+
   def listModels = Action.async {
     import play.api.libs.json.Json
 
     val future: Future[List[Model]] = modelRepo.all
+    future.map { model =>
+      Ok(Json.toJson(model))
+    }
+  }
+
+  def listJoin = Action.async {
+    import play.api.libs.json.Json
+
+    val future: Future[List[JoinResult]] = modelRepo.getJoinList
     future.map { model =>
       Ok(Json.toJson(model))
     }

@@ -1,5 +1,8 @@
 
 
 GET     /models                              controllers.Application.listModels
+GET     /joins                               controllers.Application.listJoin
+
 POST    /models/:id/:name                    controllers.Application.createModel(id: Long, name: String)
+
 
